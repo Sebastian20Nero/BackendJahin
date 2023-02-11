@@ -1,0 +1,217 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Jahin Prueba",
+    "description": "API desarrollada para mostrar inmuebles, es un crud de prueba",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:4000/api/property"
+    }
+  ],
+  "tags": [
+    {
+      "name": "property",
+      "description": "Endpoint que maneja la informacion relevante del inmueble"
+    }
+  ],
+  "paths": {
+    "/": {
+      "post": {
+        "tags": [
+          "property"
+        ],
+        "summary": "Agregar/modificar un inmueble al Catalogo",
+        "description": "Validando el id_property permite generar o modificar",
+        "operationId": "addPet",
+        "requestBody": {
+          "description": "Si id_property:null guarda, si id está en la bd modifica",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Property"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Property"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Property"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Property"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Property"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "property"
+        ],
+        "summary": "Listar",
+        "description": "Lista empleados, si tiene un id lista por id",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Status values that need to be considered for filter",
+            "required": false,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "default": "available",
+              "enum": [
+                "available",
+                "pending",
+                "sold"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "property"
+        ],
+        "summary": "Elimina property",
+        "description": "delete a property",
+        "operationId": "deleteproperty",
+        "parameters": [
+          {
+            "name": "id_property",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Eliminar inmueble"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Property": {
+        "type": "object",
+        "properties": {
+          "id_property": {
+            "type": "string",
+            "example": "6b2505ea-eea2-4e83-921d-3e14c22976da"
+          },
+          "property": {
+            "type": "string",
+            "example": "Edificio MonteCarlo"
+          },
+          "area_p": {
+            "type": "string",
+            "example": "20mt2"
+          },
+          "n_cuartos": {
+            "type": "string",
+            "example": "2"
+          },
+          "n_banos": {
+            "type": "string",
+            "example": "1"
+          },
+          "n_parqueaderos": {
+            "type": "string",
+            "example": "0"
+          },
+          "fecha_registro": {
+            "type": "string",
+            "example": "2023-02-10T05:00:00.000Z"
+          },
+          "estado": {
+            "type": "string",
+            "example": "A"
+          },
+          "descripcion": {
+            "type": "string",
+            "example": "Edicifio ubicado afuera de Cartagena"
+          },
+          "imagen": {
+            "type": "string",
+            "example": "uploads\\images\\1676038750878.jpg"
+          }
+        }
+      },
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "##default"
+        }
+      }
+    },
+    "securitySchemes": {
+      "petstore_auth": {
+        "type": "oauth2",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize",
+            "scopes": {
+              "write:pets": "modify pets in your account",
+              "read:pets": "read your pets"
+            }
+          }
+        }
+      },
+      "id_property": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "header"
+      }
+    }
+  }
+}
